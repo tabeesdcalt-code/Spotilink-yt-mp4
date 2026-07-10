@@ -1,67 +1,130 @@
-# Playlist Studio
+#  Playlist Studio
 
-Paste a Spotify playlist/album/track link, pick a format, hit start.
-It finds the tracks on YouTube, downloads them, tags them with the
-*real* metadata from Spotify (not a guess off the video title), embeds
-cover art, and sorts in anything you've already downloaded before so
-re-runs only fill in what's missing.
+[![Platform: Windows](https://img.shields.io/badge/platform-Windows-blue.svg?style=flat-square)](https://microsoft.com/windows)
+[![Python: 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg?style=flat-square)](https://python.org)
+[![Node.js: 18+](https://img.shields.io/badge/node.js-18%2B-green.svg?style=flat-square)](https://nodejs.org)
+[![FFmpeg: Required](https://img.shields.io/badge/FFmpeg-Required-red.svg?style=flat-square)](https://ffmpeg.org)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg?style=flat-square)](LICENSE)
 
-No Spotify Developer account, no client ID/secret, no login required
-for public playlists.
+Playlist Studio is a self-hosted, desktop-focused tool to download and tag music or video files from Spotify playlists, albums, or individual track links. 
 
-## What's new in this version
+It fetches real, rich metadata and high-resolution cover art from Spotify (not guesses from video titles) and matches tracks against YouTube audio/video. It also supports scanning your local folders to avoid downloading duplicates, native folder selection, and beautiful theme customization.
 
-- **Found the real cause of missing per-track album art.** The scraper library has two internal paths for reading playlist tracks: a rich one with full per-track album art, and a sparse fallback (used whenever the rich request fails for any reason) that returns zero image data for every track -- by design, since Spotify's own embed widget never shows per-track art either, only one cover for the whole playlist. When that fallback kicks in, no amount of retrying gets real per-track art back. So now: any track that comes back with no art of its own automatically uses the playlist/album cover instead, both in the UI and in the embedded file. Confirmed by directly reproducing the exact scenario in a test.
-- **YouTube links work too** — paste a plain YouTube video or playlist link (not just Spotify) and it downloads/tags the same way, using YouTube's own title/channel/thumbnail as the metadata source.
-- **Album art gets backfilled on re-runs.** If a file already sits in your output folder without embedded art (e.g. from before this fix), the next run detects that and re-tags it in place — you don't need to delete anything or start over.
-- **Real diagnostics**: if Spotify's own art fetch fails, the log now shows the actual HTTP error instead of a generic message, and the preview panel warns you up front if a playlist's tracks came back with no track-level art at all.
-- **4 themes** (Studio / Nightdrive / Vinyl / Daylight) via the swatches top-right, saved between sessions.
-- **Per-track album art thumbnails** in both the track list and the live download view, not just one cover image at the top.
-- **Smarter matching**: scores YouTube candidates on duration match *and* title keywords (clean/radio edit/censored/instrumental/karaoke/sped-up/etc get penalized unless the real track title itself uses that word), plus a trust bonus for YouTube's auto-generated "Artist - Topic" channels. For tracks Spotify marks explicit, it now actively steers away from clean/censored reuploads.
-- **30-second previews** — the small circle button next to each track plays Spotify's own preview clip before you commit to downloading anything.
-- **Real cancel** — Cancel now actually aborts an in-progress download, not just skips ones that haven't started yet.
-- **Native folder picker** — the Browse button pops a real OS folder dialog (this works because the server *is* your machine).
-- **.m3u8 playlist file** — written alongside the tracks in original playlist order, so the folder drops straight into any player as a real playlist.
+---
 
-## Setup (one time)
+##  Features
 
-1. Install **Python 3.10+** from [python.org](https://python.org/downloads) if you don't have it — tick *"Add python.exe to PATH"* during install.
-2. Install **ffmpeg** — grab the "essentials" build from [gyan.dev/ffmpeg/builds](https://www.gyan.dev/ffmpeg/builds/), unzip it, and add its `bin` folder to your PATH. Every format needs this.
-3. Double-click **`run.bat`**. First run installs everything (~1 minute); every run after that just launches the app in its own window.
+- **Real Spotify Metadata**: Tags downloaded tracks with authentic metadata (artists, album, release year, genres, track numbers, and genuine high-resolution per-track artwork).
+- **YouTube Links Supported**: Paste plain YouTube video, playlist, or short links directly for seamless download and fallback tagging.
+- **Dynamic Artwork Backfilling**: If a track is already downloaded but is missing its embedded artwork, re-running the tool detects and embeds the correct artwork in-place without re-downloading.
+- **7 Gorgeous Visual Themes**: Change the visual vibe on the fly! Includes:
+  - `Studio` (Classic Obsidian Dark)
+  - `Nightdrive` (Neon Pink/Midnight Blue)
+  - `Vinyl` (Warm Retro Cream/Amber)
+  - `Daylight` (Clean High-Contrast White)
+  - `Cyberpunk` (Neon Cyan/Purple Glowing Grid)
+  - `Terminal` (Green Phosphor Phosphorescent CRT)
+  - `Forest Aura` (Cozy Deep Pine/Earth Warmth)
+- **Extensive Format Selection**:
+  - **Audio Formats**: MP3, FLAC, M4A, Opus, WAV (lossless).
+  - **Video Formats**: MP4, MKV.
+  - **iPod Classic Video**: Custom H.264 Baseline 3.0 / AAC MP4 profile, downscaled to 640x480 max resolution — specifically structured to run natively on the legendary 5G, 5.5G, and 6G iPod Classic clickwheel hardware without lag or sync errors.
+- **30-Second Previews**: Listen to Spotify's official high-quality track previews directly in the app before committing to download.
+- **Smart Queue & Real Cancel**: Fully interactive queue panel. Cancel active downloads safely on-the-fly and clear finished jobs.
+- **Native OS File Selectors**: Pick output directories and scanning directories with real Windows explorer folder dialogs.
+- **Automated M3U Playlists**: Exports custom `.m3u8` playlist files inside your download folder matching the exact order of your Spotify playlist.
 
-## Using it
+---
 
-1. Paste a playlist/album/track link and hit **Load**.
-2. Tap the small circle next to any track to hear a 30-second preview before committing.
-3. Uncheck anything you don't want.
-4. Pick a **format** (MP3, FLAC, M4A, Opus, or WAV) and, for lossy formats, a quality.
-5. Set an **output folder** (type it, or hit **Browse** for a real folder dialog) and, optionally, folders to **scan for files you already have** — matches get moved in instead of re-downloaded.
-6. Hit **Start download** and watch it go — per-track status, an overall progress bar, and a log if you want the detail.
-7. If anything fails, you'll get a **Retry failed tracks** button — safe to hit any time, and safe to just re-run the whole thing later, since existing files are never re-downloaded.
+##  Windows Installation Guide
 
-**If a Spotify link won't resolve:** export the playlist as CSV from [exportify.net](https://exportify.net) and use "paste an Exportify CSV instead" under the URL box. This is the reliable fallback if Spotify ever changes something before the scraper catches up.
+Setting up Playlist Studio on Windows is fast. Just follow these steps:
 
-## Getting an actual `PlaylistStudio.exe`
+### Step 1: Install Python (3.10+)
+1. Download Python for Windows from the [Official Downloads Page](https://www.python.org/downloads/).
+2. Run the installer.
+3. **CRITICAL**: Make sure to check the box that says **"Add python.exe to PATH"** at the bottom of the installer window before clicking install.
 
-Run **`build_exe.bat`** once. It uses PyInstaller to package everything into a single double-clickable file at `dist\PlaylistStudio.exe` — no Python needed to *run* it after that (ffmpeg still needs to be on PATH). This has to happen on your machine because Windows executables are built on Windows; there's no way to hand you a working one from outside it.
+### Step 2: Install Node.js (18+)
+1. Download Node.js from the [Official Downloads Page](https://nodejs.org/).
+2. Run the `.msi` installer and follow the standard instructions.
 
-## Good to know
+### Step 3: Install FFmpeg (Required)
+FFmpeg is used for extracting audio, transcoding videos, and preparing iPod-compatible streams.
+1. Download the latest "essentials" build zip from [gyan.dev FFmpeg Builds](https://www.gyan.dev/ffmpeg/builds/).
+2. Extract the zip file and rename the folder to `ffmpeg` (move it somewhere permanent, like `C:\ffmpeg`).
+3. Add FFmpeg to your PATH environment variable:
+   - Open the Windows Start Menu, type `env`, and select **Edit the system environment variables**.
+   - Click on the **Environment Variables...** button.
+   - Under *User variables* or *System variables*, select the `Path` variable and click **Edit...**.
+   - Click **New** and paste the path to your extracted `ffmpeg\bin` folder (e.g., `C:\ffmpeg\bin`).
+   - Click **OK** on all windows to save.
 
-- **Audio quality is bounded by what's on YouTube.** Typically ~128–160kbps Opus/AAC, sometimes better. Choosing FLAC or WAV avoids a second lossy re-encode and gives clean room for large embedded art, but it can't restore detail that was never in the source — it's not a magic upscaler. Opus/WebM native extraction (no re-encode at all) is the most efficient way to get exactly what YouTube has, byte-for-byte.
-- **"Smart match"** (on by default) scores every candidate on duration closeness plus title/channel signals instead of blindly grabbing the first hit — noticeably fewer wrong-song, clean-edit, or sped-up downloads.
-- **YouTube's "Sign in to confirm you're not a bot" error:** set *Browser cookies* to Chrome/Firefox/Edge in Advanced settings (you need to be logged into YouTube in that browser). If it's still happening, run `pip install -U yt-dlp` — YouTube changes this often and yt-dlp ships fixes frequently.
-- Everything runs on `127.0.0.1` only — nothing here is exposed to your network.
-- This is a personal tool for a library you already have legitimate access to via your own Spotify account — it's on you to use it in line with Spotify's and YouTube's terms.
+---
 
-## If something breaks
+##  How to Run
 
-- **Setup check** (top-right button in the app) shows which pieces are missing or working.
-- Metadata scraping is unofficial by nature — if `spotifyscraper` ever breaks against a Spotify change, the CSV fallback above still works, and `pip install -U spotifyscraper` will usually pick up a fix quickly (it has an active canary/issue tracker upstream).
+### Option A: The Easy Way (Automatic)
+Double-click the **`run.bat`** file in the root directory. 
+- On the first run, the script will automatically install all backend dependencies, build the frontend asset proxy, and launch the application in its own native-looking app window.
+- On subsequent runs, it will immediately boot up the application in seconds.
 
-## What's inside
+### Option B: The Manual Way (Developer Terminal)
+If you prefer running via PowerShell, Command Prompt, or Git Bash, run:
 
-- `app.py` — Flask backend (routes for resolving links, running download jobs, progress polling, the native folder picker)
-- `spotify_meta.py` — Spotify metadata scraping (+ Exportify CSV fallback)
-- `downloader.py` — YouTube search/match, download, tagging, cover art, the sort-in-existing-files step, M3U export
-- `templates/`, `static/` — the UI (4 themes, ambient background, track previews)
-- `launch.py` — opens the app in its own window (pywebview) instead of a browser tab
+```cmd
+# 1. Install Node dependencies
+npm install
+
+# 2. Run the application
+python run.py
+```
+
+Now open your web browser to `http://127.0.0.1:3000` (or the port specified in your console logs).
+
+---
+
+##  Packaging as a Standalone Portable `.exe`
+
+Want to carry Playlist Studio around on a thumb drive without needing Python installed on other PCs?
+1. Double-click **`build_exe.bat`** in the repository.
+2. The compilation utility uses **PyInstaller** to compile the complete Flask server, Spotify scraper engines, and user interfaces into a single Windows executable file.
+3. Once completed, your portable executable is located inside the `dist\` folder:
+   ```text
+   dist\PlaylistStudio.exe
+   ```
+*(Note: Your target machine will still need FFmpeg on its PATH to transcode formats).*
+
+---
+
+##  Troubleshooting & Tips
+
+###  Bypassing YouTube "Sign in to confirm you're not a bot"
+If Google detects excessive downloads and throws a bot error:
+1. Expand the **Advanced Settings** dropdown inside Playlist Studio.
+2. Under **Browser Cookies**, select the name of the browser you actively use on your computer (Chrome, Edge, Firefox, Brave, Vivaldi, Opera, etc.).
+3. Make sure you are logged into a Google/YouTube account on that browser. Playlist Studio will safely leverage your browser cookies to verify you are a human.
+4. If the error persists, open a command line and update yt-dlp:
+   ```cmd
+   pip install -U yt-dlp
+   ```
+
+###  Using Exportify CSV as a Backup
+If a Spotify playlist link fails to resolve (for instance, if Spotify updates its web layout and the scraper temporarily breaks):
+1. Go to [Exportify](https://exportify.net) and download your playlist as a `.csv` file.
+2. In Playlist Studio, click **"Paste an Exportify CSV instead"** below the URL input field.
+3. Paste the contents of your downloaded CSV file into the text box and press load. The app will scrape track details perfectly!
+
+---
+
+##  Technical Breakdown
+
+- `app.py`: Flask-based REST backend managing resolution, active queues, folder picking, and diagnostic queries.
+- `downloader.py`: Custom pipeline processing search scoring, yt-dlp downloads, mutagen tagging, cover art extraction, and sorting.
+- `spotify_meta.py`: Lightweight web scraper querying Spotify metadata directly without API key limits.
+- `templates/` & `static/`: Modern Tailwind-driven front-end featuring rich queue progress nodes, playback controls, and client-side states.
+- `launch.py`: Seamless pywebview implementation encapsulating the browser inside a clean OS container frame.
+
+---
+
+*This application is a personal archiver tool. Please abide by copyright legislation and both platform agreements while downloading music or videos.*
