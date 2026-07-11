@@ -1,13 +1,23 @@
-#  SpotiLink
+#  SpotiFlac
 
-SpotiLink is a self-hosted, full-featured desktop application designed to download, tag, and organize music and video streams directly from Spotify or YouTube links. It fetches high-fidelity, authentic metadata and high-resolution cover art from Spotify web sources (rather than guessing details from YouTube titles) and matches tracks intelligently against corresponding video/audio candidates. 
+SpotiFlac is a self-hosted, full-featured desktop application designed to download, tag, and organize music and video streams directly from Spotify or YouTube links. It fetches high-fidelity, authentic metadata and high-resolution cover art from Spotify web sources (rather than guessing details from YouTube titles) and matches tracks intelligently against corresponding video/audio candidates. 
 
-With interactive preview players, persistent visual themes, advanced search matching, and automatic local file deduplication, SpotiLink offers a professional, offline-first archiving solution.
+With interactive preview players, persistent visual themes, advanced search matching, and automatic local file deduplication, Playlist Studio offers a professional, offline-first archiving solution.
+
+---
+
+##  Visual Previews
+
+### Playlist & Music Management Dashboard
+<img src="static/images/homepage.jpg" alt="Playlist Studio Dashboard" width="800" referrerPolicy="no-referrer">
+
+### Advanced Archiver Configuration
+<img src="static/images/settings.jpg" alt="Playlist Studio Settings" width="800" referrerPolicy="no-referrer">
 
 ---
 
 ##  Visual Identity & Themes
-SpotiLink features an elegant visual theme engine containing **seven distinct, hand-crafted presets** that can be swapped instantly from the interface:
+SpotiFlac features an elegant visual theme engine containing **seven distinct, hand-crafted presets** that can be swapped instantly from the interface:
 
 *   **Studio (Default)**: A clean, classic obsidian dark theme focusing on rich grays and vibrant gold accents.
 *   **Nightdrive**: A late-night neon pink and midnight blue cyber-synth aesthetic with subtle ambient glow.
@@ -45,12 +55,13 @@ SpotiLink features an elegant visual theme engine containing **seven distinct, h
 
 ##  Windows Installation Guide
 
-Setting up SpotiLink on Windows takes only a few minutes. 
+Setting up SpotiFlac on Windows takes only a few minutes. 
 
 ### Step 1: Install Python (3.10+)
 1. Download the Python installer for Windows from the [Official Downloads Page](https://www.python.org/downloads/).
 2. Run the installer.
-3. **CRITICAL**: Check the **"Add python.exe to PATH"** checkbox at the bottom of the installation wizard before proceeding.
+3. **CRITICAL**: Check the **"Add python.exe to PATH"
+** checkbox at the bottom of the installation wizard before proceeding.
 
 ### Step 2: Install Node.js (18+)
 1. Download Node.js from the [Official Downloads Page](https://nodejs.org/).
@@ -91,12 +102,12 @@ Open your web browser and navigate to `http://127.0.0.1:3000`.
 ---
 
 ##  Creating a Standalone Portable `.exe`
-You can compile SpotiLink into a single, portable Windows executable (`.exe`) to run on other machines without requiring Python to be pre-installed.
+You can compile SpotiFlac into a single, portable Windows executable (`.exe`) to run on other machines without requiring Python to be pre-installed.
 
 1. Double-click **`build_exe.bat`** in the repository.
 2. The PyInstaller utility compiles the Flask server, metadata modules, and web resources.
 3. Once compiled, your portable executable is available at:
-   `dist\SpotiLink.exe`
+   `dist\PlaylistStudio.exe`
 
 *(Note: Target machines still require FFmpeg on their system Path to run encoding operations).*
 
@@ -106,20 +117,20 @@ You can compile SpotiLink into a single, portable Windows executable (`.exe`) to
 
 ###  Bypassing YouTube Verification Errors
 If you encounter "Sign in to confirm you are not a bot" errors:
-1. Open the **Settings** menu in SpotiLink.
+1. Open the **Settings** menu in Spotiflac.
 2. Under **Browser Cookies**, select your active web browser (Chrome, Edge, Firefox, Brave).
-3. Ensure you are signed into YouTube on that browser. SpotiLink will safely access your browser's session cookies to confirm authentic, human downloads.
+3. Ensure you are signed into YouTube on that browser. SpotiFlac will safely access your browser's session cookies to confirm authentic, human downloads.
 4. Alternatively, you can paste raw `cookies.txt` contents (Netscape format) directly into the provided text area.
 
 ###  Exportify CSV Fallback
 If Spotify changes its layout and the web scraper fails to resolve a link:
 1. Visit [Exportify](https://exportify.net) and export your playlist as a `.csv` file.
-2. In SpotiLink, click the **"or paste an Exportify CSV instead"** link under the main input field.
+2. In SpotiFlac, click the **"or paste an Exportify CSV instead"** link under the main input field.
 3. Paste the CSV content directly. The app will resolve the tracks perfectly.
 
 ###  Avoiding Duplicate Downloads
 *   Set an **Output Folder** (type it manually or click **Browse** for a native OS folder dialog).
-*   Add folders to scan under **Scan for existing files**. If a matching track is found locally, SpotiLink automatically copies or moves it into the main output folder instead of re-downloading.
+*   Add folders to scan under **Scan for existing files**. If a matching track is found locally, Spotiflac automatically copies or moves it into the main output folder instead of re-downloading.
 
 ---
 
@@ -131,7 +142,7 @@ If Spotify changes its layout and the web scraper fails to resolve a link:
 ├── metadata.json          # Container configurations and permissions
 ├── tsconfig.json          # TypeScript compilation settings
 ├── package.json           # Node.js project manifests and scripts
-└── spotilink/             # Core Application Directory
+└── playlist_studio/       # Core Application Directory
     ├── app.py             # Flask REST API backend and routes
     ├── downloader.py      # Search matching, yt-dlp downloader, and tagging
     ├── spotify_meta.py    # Direct Spotify web scraper
