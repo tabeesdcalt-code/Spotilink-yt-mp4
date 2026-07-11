@@ -9,10 +9,11 @@ With interactive preview players, persistent visual themes, advanced search matc
 ##  Visual Previews
 
 ### Playlist & Music Management Dashboard
-<img src="static/images/homepage.jpg" alt="Playlist Studio Dashboard" width="800" referrerPolicy="no-referrer">
+<img width="840" height="917" alt="image" src="https://github.com/user-attachments/assets/94d7b37d-adf0-4516-8ff7-bffde1664bf5" />
+
 
 ### Advanced Archiver Configuration
-<img src="static/images/settings.jpg" alt="Playlist Studio Settings" width="800" referrerPolicy="no-referrer">
+<img width="809" height="1034" alt="image" src="https://github.com/user-attachments/assets/fe4027e3-6fee-4e9d-831c-f6aedf5b458f" />
 
 ---
 
