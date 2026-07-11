@@ -1,130 +1,152 @@
-#  Playlist Studio
+#  SpotiLink
 
-[![Platform: Windows](https://img.shields.io/badge/platform-Windows-blue.svg?style=flat-square)](https://microsoft.com/windows)
-[![Python: 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg?style=flat-square)](https://python.org)
-[![Node.js: 18+](https://img.shields.io/badge/node.js-18%2B-green.svg?style=flat-square)](https://nodejs.org)
-[![FFmpeg: Required](https://img.shields.io/badge/FFmpeg-Required-red.svg?style=flat-square)](https://ffmpeg.org)
-[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg?style=flat-square)](LICENSE)
+SpotiLink is a self-hosted, full-featured desktop application designed to download, tag, and organize music and video streams directly from Spotify or YouTube links. It fetches high-fidelity, authentic metadata and high-resolution cover art from Spotify web sources (rather than guessing details from YouTube titles) and matches tracks intelligently against corresponding video/audio candidates. 
 
-Playlist Studio is a self-hosted, desktop-focused tool to download and tag music or video files from Spotify playlists, albums, or individual track links. 
-
-It fetches real, rich metadata and high-resolution cover art from Spotify (not guesses from video titles) and matches tracks against YouTube audio/video. It also supports scanning your local folders to avoid downloading duplicates, native folder selection, and beautiful theme customization.
+With interactive preview players, persistent visual themes, advanced search matching, and automatic local file deduplication, SpotiLink offers a professional, offline-first archiving solution.
 
 ---
 
-##  Features
+##  Visual Identity & Themes
+SpotiLink features an elegant visual theme engine containing **seven distinct, hand-crafted presets** that can be swapped instantly from the interface:
 
-- **Real Spotify Metadata**: Tags downloaded tracks with authentic metadata (artists, album, release year, genres, track numbers, and genuine high-resolution per-track artwork).
-- **YouTube Links Supported**: Paste plain YouTube video, playlist, or short links directly for seamless download and fallback tagging.
-- **Dynamic Artwork Backfilling**: If a track is already downloaded but is missing its embedded artwork, re-running the tool detects and embeds the correct artwork in-place without re-downloading.
-- **7 Gorgeous Visual Themes**: Change the visual vibe on the fly! Includes:
-  - `Studio` (Classic Obsidian Dark)
-  - `Nightdrive` (Neon Pink/Midnight Blue)
-  - `Vinyl` (Warm Retro Cream/Amber)
-  - `Daylight` (Clean High-Contrast White)
-  - `Cyberpunk` (Neon Cyan/Purple Glowing Grid)
-  - `Terminal` (Green Phosphor Phosphorescent CRT)
-  - `Forest Aura` (Cozy Deep Pine/Earth Warmth)
-- **Extensive Format Selection**:
-  - **Audio Formats**: MP3, FLAC, M4A, Opus, WAV (lossless).
-  - **Video Formats**: MP4, MKV.
-  - **iPod Classic Video**: Custom H.264 Baseline 3.0 / AAC MP4 profile, downscaled to 640x480 max resolution — specifically structured to run natively on the legendary 5G, 5.5G, and 6G iPod Classic clickwheel hardware without lag or sync errors.
-- **30-Second Previews**: Listen to Spotify's official high-quality track previews directly in the app before committing to download.
-- **Smart Queue & Real Cancel**: Fully interactive queue panel. Cancel active downloads safely on-the-fly and clear finished jobs.
-- **Native OS File Selectors**: Pick output directories and scanning directories with real Windows explorer folder dialogs.
-- **Automated M3U Playlists**: Exports custom `.m3u8` playlist files inside your download folder matching the exact order of your Spotify playlist.
+*   **Studio (Default)**: A clean, classic obsidian dark theme focusing on rich grays and vibrant gold accents.
+*   **Nightdrive**: A late-night neon pink and midnight blue cyber-synth aesthetic with subtle ambient glow.
+*   **Vinyl**: A warm retro-cream layout using deep amber accents and a comforting analog aesthetic.
+*   **Daylight**: A crisp, high-contrast light mode designed for maximum legibility.
+*   **Cyberpunk**: High-vibrancy cyan and neon purple highlights set against a dark grid canvas.
+*   **Terminal**: A retro-futurist phosphor green scheme emulating classic CRT displays.
+*   **Forest Aura**: A cozy, natural pairing of pine green and warm earth tones.
+
+---
+
+##  Core Capabilities
+
+### 1. High-Fidelity Metadata Scraper
+*   **Authentic Tagging**: Automatically queries and writes real ID3 tags (artists, album title, release year, genre, and track number) using direct Spotify scraper nodes—bypassing the need for custom Spotify Developer API keys or user logins.
+*   **Per-Track Cover Art**: Embeds authentic, high-resolution track artwork directly into each file. If Spotify lacks track-specific imagery, the master playlist/album cover is backfilled automatically.
+*   **In-Place Metadata Repair**: Re-running the application over existing files automatically identifies and embeds missing tags or artwork in-place without re-downloading the streams.
+
+### 2. Intelligent Search & Matching
+*   **Smart Scoring**: Evaluates candidate matches based on a combined score of title similarity, artist verification, and exact duration comparisons. 
+*   **Explicit Track Guard**: Active filters prioritize original explicit tracks and actively penalize clean, censored, or radio-edit re-uploads.
+*   **Keyword Filters**: Automatically avoids cover versions, karaoke tracks, instrumental copies, and sped-up/remixed variants unless requested.
+
+### 3. Comprehensive Format Support
+*   **Audio Archives**: High-fidelity encodings to `MP3`, `FLAC` (lossless), `M4A/AAC`, `Opus`, and `WAV` (lossless).
+*   **Video Formats**: Downloader pipelines support high-resolution `MP4` and `MKV` output.
+*   **iPod Classic Video**: Built-in profile containing custom H.264 Baseline 3.0 / AAC MP4 parameters, downscaled to 640x480 max resolution. This profile is specifically structured to run natively on legacy clickwheel hardware (5G, 5.5G, 6G iPods) without lag, skips, or audio sync errors.
+
+### 4. Interactive Audio Control & Queue
+*   **30-Second Previews**: Tap the play icon next to any Spotify track to listen to high-quality audio previews before initiating downloads.
+*   **Custom Match Links**: Paste custom YouTube URLs directly onto individual tracks in the list to bypass automatic search matching.
+*   **Responsive Queue Control**: Manage downloads with an interactive queue, including real-time progress bars, per-track status badges, and safe active download cancellation.
 
 ---
 
 ##  Windows Installation Guide
 
-Setting up Playlist Studio on Windows is fast. Just follow these steps:
+Setting up SpotiLink on Windows takes only a few minutes. 
 
 ### Step 1: Install Python (3.10+)
-1. Download Python for Windows from the [Official Downloads Page](https://www.python.org/downloads/).
+1. Download the Python installer for Windows from the [Official Downloads Page](https://www.python.org/downloads/).
 2. Run the installer.
-3. **CRITICAL**: Make sure to check the box that says **"Add python.exe to PATH"** at the bottom of the installer window before clicking install.
+3. **CRITICAL**: Check the **"Add python.exe to PATH"** checkbox at the bottom of the installation wizard before proceeding.
 
 ### Step 2: Install Node.js (18+)
 1. Download Node.js from the [Official Downloads Page](https://nodejs.org/).
-2. Run the `.msi` installer and follow the standard instructions.
+2. Run the `.msi` installer and proceed with the standard settings.
 
 ### Step 3: Install FFmpeg (Required)
-FFmpeg is used for extracting audio, transcoding videos, and preparing iPod-compatible streams.
-1. Download the latest "essentials" build zip from [gyan.dev FFmpeg Builds](https://www.gyan.dev/ffmpeg/builds/).
-2. Extract the zip file and rename the folder to `ffmpeg` (move it somewhere permanent, like `C:\ffmpeg`).
-3. Add FFmpeg to your PATH environment variable:
-   - Open the Windows Start Menu, type `env`, and select **Edit the system environment variables**.
-   - Click on the **Environment Variables...** button.
-   - Under *User variables* or *System variables*, select the `Path` variable and click **Edit...**.
-   - Click **New** and paste the path to your extracted `ffmpeg\bin` folder (e.g., `C:\ffmpeg\bin`).
-   - Click **OK** on all windows to save.
+FFmpeg processes and packages audio/video files.
+1. Download the latest "essentials" build from [gyan.dev FFmpeg Builds](https://www.gyan.dev/ffmpeg/builds/).
+2. Extract the ZIP file and rename the folder to `ffmpeg` (e.g., move it to `C:\ffmpeg`).
+3. Add the `bin` folder to your Path:
+    *   Search for **Edit the system environment variables** in the Windows Start menu.
+    *   Click the **Environment Variables...** button.
+    *   Under *System variables* (or *User variables*), double-click the **Path** variable.
+    *   Click **New** and paste the path to your folder: `C:\ffmpeg\bin`
+    *   Click **OK** to save and apply.
 
 ---
 
-##  How to Run
+##  Launching the Application
 
-### Option A: The Easy Way (Automatic)
-Double-click the **`run.bat`** file in the root directory. 
-- On the first run, the script will automatically install all backend dependencies, build the frontend asset proxy, and launch the application in its own native-looking app window.
-- On subsequent runs, it will immediately boot up the application in seconds.
+### Option A: Standard Startup (Automatic)
+Double-click the **`run.bat`** file in the root folder.
+*   On the **first boot**, the script automatically installs all required Python packages, installs Node dependencies, compiles the client proxy, and launches the application in a clean, standalone desktop window.
+*   On **subsequent runs**, it immediately opens the desktop interface in seconds.
 
-### Option B: The Manual Way (Developer Terminal)
-If you prefer running via PowerShell, Command Prompt, or Git Bash, run:
+### Option B: Terminal Startup (Manual)
+To run the server manually in development or custom server mode, execute the following commands in your shell:
 
-```cmd
-# 1. Install Node dependencies
+```bash
+# Install package dependencies
 npm install
 
-# 2. Run the application
+# Start the Flask web server
 python run.py
 ```
-
-Now open your web browser to `http://127.0.0.1:3000` (or the port specified in your console logs).
+Open your web browser and navigate to `http://127.0.0.1:3000`.
 
 ---
 
-##  Packaging as a Standalone Portable `.exe`
+##  Creating a Standalone Portable `.exe`
+You can compile SpotiLink into a single, portable Windows executable (`.exe`) to run on other machines without requiring Python to be pre-installed.
 
-Want to carry Playlist Studio around on a thumb drive without needing Python installed on other PCs?
 1. Double-click **`build_exe.bat`** in the repository.
-2. The compilation utility uses **PyInstaller** to compile the complete Flask server, Spotify scraper engines, and user interfaces into a single Windows executable file.
-3. Once completed, your portable executable is located inside the `dist\` folder:
-   ```text
-   dist\PlaylistStudio.exe
-   ```
-*(Note: Your target machine will still need FFmpeg on its PATH to transcode formats).*
+2. The PyInstaller utility compiles the Flask server, metadata modules, and web resources.
+3. Once compiled, your portable executable is available at:
+   `dist\SpotiLink.exe`
+
+*(Note: Target machines still require FFmpeg on their system Path to run encoding operations).*
 
 ---
 
-##  Troubleshooting & Tips
+##  Pro-Tips & Advanced Features
 
-###  Bypassing YouTube "Sign in to confirm you're not a bot"
-If Google detects excessive downloads and throws a bot error:
-1. Expand the **Advanced Settings** dropdown inside Playlist Studio.
-2. Under **Browser Cookies**, select the name of the browser you actively use on your computer (Chrome, Edge, Firefox, Brave, Vivaldi, Opera, etc.).
-3. Make sure you are logged into a Google/YouTube account on that browser. Playlist Studio will safely leverage your browser cookies to verify you are a human.
-4. If the error persists, open a command line and update yt-dlp:
-   ```cmd
-   pip install -U yt-dlp
-   ```
+###  Bypassing YouTube Verification Errors
+If you encounter "Sign in to confirm you are not a bot" errors:
+1. Open the **Settings** menu in SpotiLink.
+2. Under **Browser Cookies**, select your active web browser (Chrome, Edge, Firefox, Brave).
+3. Ensure you are signed into YouTube on that browser. SpotiLink will safely access your browser's session cookies to confirm authentic, human downloads.
+4. Alternatively, you can paste raw `cookies.txt` contents (Netscape format) directly into the provided text area.
 
-###  Using Exportify CSV as a Backup
-If a Spotify playlist link fails to resolve (for instance, if Spotify updates its web layout and the scraper temporarily breaks):
-1. Go to [Exportify](https://exportify.net) and download your playlist as a `.csv` file.
-2. In Playlist Studio, click **"Paste an Exportify CSV instead"** below the URL input field.
-3. Paste the contents of your downloaded CSV file into the text box and press load. The app will scrape track details perfectly!
+###  Exportify CSV Fallback
+If Spotify changes its layout and the web scraper fails to resolve a link:
+1. Visit [Exportify](https://exportify.net) and export your playlist as a `.csv` file.
+2. In SpotiLink, click the **"or paste an Exportify CSV instead"** link under the main input field.
+3. Paste the CSV content directly. The app will resolve the tracks perfectly.
 
----
-
-##  Technical Breakdown
-
-- `app.py`: Flask-based REST backend managing resolution, active queues, folder picking, and diagnostic queries.
-- `downloader.py`: Custom pipeline processing search scoring, yt-dlp downloads, mutagen tagging, cover art extraction, and sorting.
-- `spotify_meta.py`: Lightweight web scraper querying Spotify metadata directly without API key limits.
-- `templates/` & `static/`: Modern Tailwind-driven front-end featuring rich queue progress nodes, playback controls, and client-side states.
-- `launch.py`: Seamless pywebview implementation encapsulating the browser inside a clean OS container frame.
+###  Avoiding Duplicate Downloads
+*   Set an **Output Folder** (type it manually or click **Browse** for a native OS folder dialog).
+*   Add folders to scan under **Scan for existing files**. If a matching track is found locally, SpotiLink automatically copies or moves it into the main output folder instead of re-downloading.
 
 ---
 
-*This application is a personal archiver tool. Please abide by copyright legislation and both platform agreements while downloading music or videos.*
+##  Repository Map
+
+```text
+/
+├── server.ts              # Proxy orchestration server for AI Studio
+├── metadata.json          # Container configurations and permissions
+├── tsconfig.json          # TypeScript compilation settings
+├── package.json           # Node.js project manifests and scripts
+└── spotilink/             # Core Application Directory
+    ├── app.py             # Flask REST API backend and routes
+    ├── downloader.py      # Search matching, yt-dlp downloader, and tagging
+    ├── spotify_meta.py    # Direct Spotify web scraper
+    ├── launch.py          # pywebview container wrapper
+    ├── requirements.txt   # Python dependency list
+    ├── run.bat            # Windows startup script
+    ├── build_exe.bat      # Single executable builder script
+    ├── templates/
+    │   └── index.html     # Responsive SPA layout
+    └── static/
+        ├── css/
+        │   └── style.css  # Layout, themes, custom controls, and animations
+        └── js/
+            └── app.js     # Client event handlers, audio engine, and queue manager
+```
+
+---
+*Disclaimer: This is a private archiving utility. Please ensure your usage complies with local copyright laws and third-party platform terms of service.*
